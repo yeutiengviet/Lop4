@@ -376,7 +376,7 @@ submitBtn.addEventListener('click',()=>{
   else card.classList.add('revealed');
  });
  upd();
- try{fetch("https://script.google.com/macros/s/AKfycbyvWKGiEadJZC0m2E_ETWm1oGUXTJ7RaNEGJkDT_TiX5UGxaav75rKJ0mN2OV-hQ4s/exec",{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+ try{fetch("https://script.google.com/macros/s/AKfycbxcmRHrOmXUrow5v79Xe0Eagd_rfxD8nxGqnTwjnieRWuLZBpgVORHnRJ3ec_4WQ7nI/exec",{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
   body:JSON.stringify({bai:"Từ và câu - Tuần 20",hoten:studentName.value.trim(),lop:studentClass.value.trim(),diem:earned,tongdiem:possible,tuluan:Object.keys(tuluan).map(k=>k+': '+(tuluan[k]||'(chưa làm)')).join(' || ')})}).catch(()=>{});}catch(e){}
  const pct=Math.round(earned/possible*100);let em,msg;
  if(pct>=90){em='🌞';msg='Tuyệt vời! Sương mù tan hết, em giỏi quá!';}
