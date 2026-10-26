@@ -446,7 +446,7 @@ function grade(){
   if(SCRIPT_URL){
     try{
       fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
-        body:JSON.stringify({bai:TEN_BAI,hoten:name,lop:$("lop").value.trim(),diem:sc,tongdiem:tot,tuluan:tuluan})
+        body:JSON.stringify({bai:TEN_BAI,hoten:name,lop:$("lop").value.trim(),diem:sc,tongdiem:tot,causai:rows.filter(function(x){return x[1]<x[2]-1e-9}).map(function(x){return String(x[0]).replace(/,\s*/g,"/")}).join(", "),tuluan:tuluan})
       }).catch(function(){ $("warn").textContent="Chưa gửi được điểm cho cô. Em chụp màn hình gửi cô nhé!"; });
     }catch(e){ $("warn").textContent="Chưa gửi được điểm cho cô. Em chụp màn hình gửi cô nhé!"; }
   }

@@ -337,7 +337,7 @@ function grade(){
   $("#nop").disabled=true; $("#nop").style.opacity=.5;
 
   if(SHEET_URL){
-    const data={bai:TEN_BAI,hoten:ten,lop:$("#lop").value.trim(),diem:diem,tongdiem:10,tuluan:"BÀI 8:\n"+$$("#b8 textarea").map((t,i)=>(i+1)+". "+(t.value.trim()||"(bỏ trống)")).join("\n")+"\n\nCHI TIẾT: "+parts.map(p=>p[0]+": "+Math.round(p[1]*10)/10+"/"+p[2]).join("; ")};
+    const data={bai:TEN_BAI,hoten:ten,lop:$("#lop").value.trim(),diem:diem,tongdiem:10,causai:parts.filter(p=>p[1]<p[2]-1e-9).map(p=>String(p[0]).replace(/,\s*/g,"/")).join(", "),tuluan:"BÀI 8:\n"+$$("#b8 textarea").map((t,i)=>(i+1)+". "+(t.value.trim()||"(bỏ trống)")).join("\n")+"\n\nCHI TIẾT: "+parts.map(p=>p[0]+": "+Math.round(p[1]*10)/10+"/"+p[2]).join("; ")};
     fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)}).then(()=>$("#gui").textContent="Đã gửi kết quả cho thầy cô.").catch(()=>$("#gui").textContent="Chưa gửi được kết quả, em hãy chụp màn hình gửi thầy cô nhé.");
   } else $("#gui").textContent="Em hãy chụp màn hình kết quả gửi cho thầy cô nhé.";
 }

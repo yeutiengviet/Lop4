@@ -287,9 +287,9 @@ var nm=$('#nm'),cl=$('#cl');
 function need(el,msg){el.style.borderColor='var(--coral)';el.placeholder=msg;el.scrollIntoView({behavior:'smooth',block:'center'});el.focus()}
 if(!nm.value.trim()){need(nm,'Em nhớ điền tên trước khi nộp bài nhé!');return}nm.style.borderColor='';
 if(!cl.value.trim()){need(cl,'Em nhớ điền lớp trước khi nộp bài nhé!');return}cl.style.borderColor='';
-var E=0,P=0;cards.forEach(function(c){var g=grade(c);E+=g.e;P+=g.p});
+var E=0,P=0,W=[];cards.forEach(function(c,i){var g=grade(c);E+=g.e;P+=g.p;if(c.classList.contains('incorrect')){var sc=c.previousElementSibling;while(sc&&!(sc.classList&&sc.classList.contains('sec')))sc=sc.previousElementSibling;var sm=sc&&sc.textContent.match(/(IV|I{1,3})\./);W.push((sm?sm[0]+' ':'')+'Câu '+(c.querySelector('.qn')?c.querySelector('.qn').textContent.trim():(i+1)))}});
 lock(true);this.disabled=true;
-try{fetch(URL_GS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({bai:'Đọc hiểu tuần 13 - Tuổi Ngựa',hoten:nm.value.trim(),lop:cl.value.trim(),diem:E,tongdiem:P})}).catch(function(){})}catch(x){}
+try{fetch(URL_GS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({bai:'Đọc hiểu tuần 13 - Tuổi Ngựa',hoten:nm.value.trim(),lop:cl.value.trim(),diem:E,tongdiem:P,causai:W.join(', ')})}).catch(function(){})}catch(x){}
 var pc=Math.round(E/P*100),em,ms;
 if(pc>=90){em='🌈';ms='Tuyệt vời! Ngựa con phi tới đích, em giỏi quá!'}else if(pc>=70){em='🐎';ms='Rất tốt! Em đã đi gần hết đường rồi.'}else if(pc>=50){em='🌼';ms='Khá lắm! Xem lại vài câu để giỏi hơn nữa nhé.'}else{em='🌬️';ms='Đừng lo, hãy đọc lại bài thơ và thử lần nữa nhé!'}
 $('#re').textContent=em;$('#rs').textContent=E+' / '+P+' điểm';$('#rm').textContent=nm.value.trim()+' ơi, '+ms+' (Hai câu tự luận do cô giáo chấm riêng.)';

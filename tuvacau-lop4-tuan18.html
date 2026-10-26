@@ -459,7 +459,7 @@ document.getElementById('submitBtn').addEventListener('click',()=>{
   const tl=Array.from(document.querySelectorAll('.open-in')).filter(i=>i.value.trim()!=='').map(i=>i.dataset.l+': '+i.value.trim()).join(' | ');
   try{
     fetch("https://script.google.com/macros/s/AKfycbxcmRHrOmXUrow5v79Xe0Eagd_rfxD8nxGqnTwjnieRWuLZBpgVORHnRJ3ec_4WQ7nI/exec",{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify({bai:"Từ và câu - Tuần 18",hoten:nameInput.value.trim(),lop:classInput.value.trim(),diem:earned,tongdiem:possible,tuluan:tl})
+      body:JSON.stringify({bai:"Từ và câu - Tuần 18",hoten:nameInput.value.trim(),lop:classInput.value.trim(),diem:earned,tongdiem:possible, causai: __causai(),tuluan:tl})
     }).catch(()=>{});
   }catch(e){}
   const pct=Math.round(earned/possible*100);
@@ -490,6 +490,21 @@ document.getElementById('retryBtn').addEventListener('click',()=>{
 });
 updateProgress();
 
+
+/* Danh sách câu sai gửi về Sheet (cột "Câu sai"): lấy từ chính kết quả chấm hiển thị trên trang */
+function __causai(){
+  var out=[];
+  document.querySelectorAll('.q-card').forEach(function(c,i){
+    var cl=c.classList;
+    if(cl.contains('correct')||cl.contains('neutral')||cl.contains('open-done')||cl.contains('done')||cl.contains('opened'))return;
+    var id=String(c.getAttribute('data-label')||c.getAttribute('data-qid')||('câu '+(i+1))).replace(/,\s*/g,'/');
+    if(cl.contains('incorrect')){out.push(id);return;}
+    var hasWork=c.querySelector('input:not([type=hidden]),select,.tk,.tok,.opt,.gap,.chip,.pick-row,[data-correct],[data-r]');
+    var onlyText=c.querySelector('textarea')&&!c.querySelector('input,select,.tk,.tok,.opt,.gap,.chip,.pick-row,[data-correct],[data-r]');
+    if(hasWork&&!onlyText)out.push(id);
+  });
+  return out.join(', ');
+}
 </script>
 </body>
 </html>

@@ -537,7 +537,7 @@ function updateProgress(){
 
 /* ---------- CHẤM BÀI ---------- */
 function gradeAll(){
-  var total={earned:0,possible:0}, rows=[];
+  var total={earned:0,possible:0,wrong:[]}, rows=[];
   cards.forEach(function(card,idx){
     var k=card.dataset.kind, e=0, p=0, perfect=true, r;
     card.classList.add("graded");
@@ -552,7 +552,7 @@ function gradeAll(){
     if(card.dataset.board){ card.dataset.board.split(",").forEach(function(id){ r=gradeBoard(id); e+=r.earned; p+=r.possible; if(!r.perfect) perfect=false; }); }
     $$("[data-set]",card).forEach(function(row){ r=gradeSet(row); e+=r.earned; p+=r.possible; if(!r.perfect) perfect=false; });
     card.classList.remove("correct","incorrect");
-    if(p>0){ card.classList.add(perfect?"correct":"incorrect"); rows.push([SECTION_NAMES[idx], e+" / "+p]); }
+    if(p>0){ card.classList.add(perfect?"correct":"incorrect"); rows.push([SECTION_NAMES[idx], e+" / "+p]); if(!perfect) total.wrong.push(String(SECTION_NAMES[idx]).replace(/,/g," ")); }
     total.earned+=e; total.possible+=p;
   });
   total.rows=rows; return total;
@@ -570,7 +570,7 @@ $("#submitBtn").addEventListener("click",function(){
   var t=gradeAll(); updateProgress();
   try{
     fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:JSON.stringify({bai:BAI,hoten:name.value.trim(),lop:cls.value.trim(),diem:t.earned,tongdiem:t.possible})}).catch(function(){});
+      body:JSON.stringify({bai:BAI,hoten:name.value.trim(),lop:cls.value.trim(),diem:t.earned,tongdiem:t.possible,causai:t.wrong.join(", ")})}).catch(function(){});
   }catch(err){}
 
   var pct=Math.round(t.earned/t.possible*100), emo, msg;

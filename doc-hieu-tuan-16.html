@@ -273,7 +273,7 @@ function grade(){
  if(SCRIPT_URL){
   var fail=function(){$('#warn').textContent='Chưa gửi được điểm cho cô. Em chụp màn hình gửi cô nhé!'};
   try{fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
-   body:JSON.stringify({bai:TEN_BAI,hoten:name,lop:lop,diem:score,tongdiem:total,tuluan:'ĐỌC - CÂU 5:\n'+t5})}).catch(fail)}catch(e){fail()}
+   body:JSON.stringify({bai:TEN_BAI,hoten:name,lop:lop,diem:score,tongdiem:total,causai:rows.filter(function(x){return x[1]<x[2]}).map(function(x){return String(x[0]).replace(/,\s*/g,'/')}).join(', '),tuluan:'ĐỌC - CÂU 5:\n'+t5})}).catch(fail)}catch(e){fail()}
  }
  r.scrollIntoView({behavior:'smooth',block:'center'});
 }

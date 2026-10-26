@@ -377,7 +377,7 @@ submitBtn.addEventListener('click',()=>{
  });
  upd();
  try{fetch("https://script.google.com/macros/s/AKfycbxcmRHrOmXUrow5v79Xe0Eagd_rfxD8nxGqnTwjnieRWuLZBpgVORHnRJ3ec_4WQ7nI/exec",{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
-  body:JSON.stringify({bai:"Từ và câu - Tuần 20",hoten:studentName.value.trim(),lop:studentClass.value.trim(),diem:earned,tongdiem:possible,tuluan:Object.keys(tuluan).map(k=>k+': '+(tuluan[k]||'(chưa làm)')).join(' || ')})}).catch(()=>{});}catch(e){}
+  body:JSON.stringify({bai:"Từ và câu - Tuần 20",hoten:studentName.value.trim(),lop:studentClass.value.trim(),diem:earned,tongdiem:possible, causai: __causai(),tuluan:Object.keys(tuluan).map(k=>k+': '+(tuluan[k]||'(chưa làm)')).join(' || ')})}).catch(()=>{});}catch(e){}
  const pct=Math.round(earned/possible*100);let em,msg;
  if(pct>=90){em='🌞';msg='Tuyệt vời! Sương mù tan hết, em giỏi quá!';}
  else if(pct>=70){em='🌤️';msg='Rất tốt! Em đã đi gần hết con đường rồi.';}
@@ -397,6 +397,21 @@ retryBtn.addEventListener('click',()=>{
  resultPanel.classList.remove('show');upd();window.scrollTo({top:0,behavior:'smooth'});
 });
 upd();
+
+/* Danh sách câu sai gửi về Sheet (cột "Câu sai"): lấy từ chính kết quả chấm hiển thị trên trang */
+function __causai(){
+  var out=[];
+  document.querySelectorAll('.q-card').forEach(function(c,i){
+    var cl=c.classList;
+    if(cl.contains('correct')||cl.contains('neutral')||cl.contains('open-done')||cl.contains('done')||cl.contains('opened'))return;
+    var id=String(c.getAttribute('data-label')||c.getAttribute('data-qid')||('câu '+(i+1))).replace(/,\s*/g,'/');
+    if(cl.contains('incorrect')){out.push(id);return;}
+    var hasWork=c.querySelector('input:not([type=hidden]),select,.tk,.tok,.opt,.gap,.chip,.pick-row,[data-correct],[data-r]');
+    var onlyText=c.querySelector('textarea')&&!c.querySelector('input,select,.tk,.tok,.opt,.gap,.chip,.pick-row,[data-correct],[data-r]');
+    if(hasWork&&!onlyText)out.push(id);
+  });
+  return out.join(', ');
+}
 </script>
 </body>
 </html>

@@ -610,7 +610,7 @@ document.getElementById('submitBtn').addEventListener('click', ()=>{
         hoten: nameInput.value.trim(),
         lop: classInput.value.trim(),
         diem: earned,
-        tongdiem: possible,
+        tongdiem: possible, causai: __causai(),
         tuluan: tuluan.join(' || ')
       })
     }).catch(()=>{});
@@ -653,6 +653,21 @@ document.getElementById('retryBtn').addEventListener('click', ()=>{
 
 document.querySelectorAll('.chip').forEach((c,i)=>{c.dataset.i=i;});
 updateProgress();
+
+/* Danh sách câu sai gửi về Sheet (cột "Câu sai"): lấy từ chính kết quả chấm hiển thị trên trang */
+function __causai(){
+  var out=[];
+  document.querySelectorAll('.q-card').forEach(function(c,i){
+    var cl=c.classList;
+    if(cl.contains('correct')||cl.contains('neutral')||cl.contains('open-done')||cl.contains('done')||cl.contains('opened'))return;
+    var id=String(c.getAttribute('data-label')||c.getAttribute('data-qid')||('câu '+(i+1))).replace(/,\s*/g,'/');
+    if(cl.contains('incorrect')){out.push(id);return;}
+    var hasWork=c.querySelector('input:not([type=hidden]),select,.tk,.tok,.opt,.gap,.chip,.pick-row,[data-correct],[data-r]');
+    var onlyText=c.querySelector('textarea')&&!c.querySelector('input,select,.tk,.tok,.opt,.gap,.chip,.pick-row,[data-correct],[data-r]');
+    if(hasWork&&!onlyText)out.push(id);
+  });
+  return out.join(', ');
+}
 </script>
 </body>
 </html>

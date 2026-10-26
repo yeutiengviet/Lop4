@@ -396,7 +396,7 @@ function tag(card,e,t){
 }
 function mark(node,ok){node.classList.add(ok?"right":"wrong");}
 function gradeAll(){
-  var parts=[],earned=0,total=0;
+  var parts=[],earned=0,total=0,wrong=[];
   function add(name,e,t,card){parts.push([name,e,t]);earned+=e;total+=t;tag(card,e,t);}
   MC.forEach(function(m,i){
     var card=$("q"+(i+1)),pick=card.querySelector("input:checked"),ok=!!pick&&+pick.value===m.a;
@@ -404,23 +404,23 @@ function gradeAll(){
       if(j===m.a)o.classList.add("right");
       else if(pick&&+pick.value===j)o.classList.add("wrong");
     });
-    add("Đọc – câu "+(i+1),ok?1:0,1,card);
+    if(!ok)wrong.push("Đọc "+(i+1));add("Đọc – câu "+(i+1),ok?1:0,1,card);
   });
   [["l1","LTVC – bài 1"],["l2","LTVC – bài 2"],["l3","LTVC – bài 3"]].forEach(function(x){
     var card=$(x[0]),e=0,rows=card.querySelectorAll(".orow");
     rows.forEach(function(r){var ok=r.querySelector("select").value===r.dataset.a;if(ok)e++;mark(r,ok);});
-    add(x[1],e,rows.length,card);
+    if(e<rows.length)wrong.push("LTVC "+x[0].slice(1));add(x[1],e,rows.length,card);
   });
   (function(){var card=$("l4"),e=0,cs=card.querySelectorAll(".wcard");
     cs.forEach(function(c){var p=c.querySelector("input:checked"),ok=!!p&&p.value===c.dataset.a;if(ok)e++;mark(c,ok);});
-    add("LTVC – bài 4",e,cs.length,card);})();
+    if(e<cs.length)wrong.push("LTVC 4");add("LTVC – bài 4",e,cs.length,card);})();
   (function(){var card=$("l5"),e=0,rs=card.querySelectorAll(".srow");
-    rs.forEach(function(r){var p=r.querySelector(".sw.cut"),ok=!!p&&p.textContent===r.dataset.a;if(ok)e++;mark(r,ok);});
+    rs.forEach(function(r){var p=r.querySelector(".sw.cut"),ok=!!p&&p.textContent===r.dataset.a;if(ok)e++;else wrong.push("LTVC 5"+r.querySelector(".lt").textContent.replace(/[.\s]/g,""));mark(r,ok);});
     add("LTVC – bài 5",e,rs.length,card);})();
   (function(){var card=$("l6"),e=0,ts=card.querySelectorAll(".tok");
     ts.forEach(function(t){var ok=t.dataset.v===t.dataset.a;if(ok)e++;mark(t,ok);});
-    add("LTVC – bài 6",e,ts.length,card);})();
-  return {parts:parts,earned:earned,total:total};
+    if(e<ts.length)wrong.push("LTVC 6");add("LTVC – bài 6",e,ts.length,card);})();
+  return {parts:parts,earned:earned,total:total,wrong:wrong};
 }
 function countBlank(){
   var n=0;
@@ -451,7 +451,7 @@ $("submitBtn").addEventListener("click",function(){
   document.body.classList.add("graded");lock(true);$("submitBtn").disabled=true;
   try{
     fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:JSON.stringify({bai:BAI,hoten:nm.value.trim(),lop:cl.value.trim(),diem:r.earned,tongdiem:r.total})}).catch(function(){});
+      body:JSON.stringify({bai:BAI,hoten:nm.value.trim(),lop:cl.value.trim(),diem:r.earned,tongdiem:r.total,causai:r.wrong.join(", ")})}).catch(function(){});
   }catch(e){}
   var pct=r.earned/r.total,em,m;
   if(pct>=.9){em="🌞";m="Tuyệt vời! Em chăm chỉ như gió vườn vậy!";}

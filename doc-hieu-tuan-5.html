@@ -479,6 +479,7 @@ $("submitBtn").addEventListener("click", function(){
   warn.style.display = "none";
   submitted = true;
 
+  var wrongList = [];
   // I. Đọc hiểu
   var sRead = 0, mRead = 0;
   document.querySelectorAll(".q.mc").forEach(function(q){
@@ -486,7 +487,7 @@ $("submitBtn").addEventListener("click", function(){
     var c = q.getAttribute("data-correct");
     var chosen = q.querySelector("input:checked");
     var good = !!chosen && chosen.value === c;
-    if(good) sRead++;
+    if(good) sRead++; else wrongList.push("Đọc " + mRead);
     q.querySelectorAll(".opt").forEach(function(o){
       var inp = o.querySelector("input");
       inp.disabled = true;
@@ -509,6 +510,7 @@ $("submitBtn").addEventListener("click", function(){
       else if(isV && !on){ c.classList.add("missed"); }
     });
     s1 += Math.max(0, hit - wrong);
+    if(wrong > 0 || hit < verbs.length) wrongList.push("Bài 1." + s.getAttribute("data-s"));
     fb1.push(s.getAttribute("data-s") + ". " + verbs.join(", "));
   });
   $("ex1fb").innerHTML = "<b>Các động từ:</b><br>" + fb1.join("<br>") + "<br><i>Nền xanh: em gạch đúng. Gạch đứt xanh: động từ em còn bỏ sót. Nền đỏ: từ đó không phải động từ (mỗi từ gạch sai bị trừ 1 điểm trong câu đó).</i>";
@@ -524,6 +526,7 @@ $("submitBtn").addEventListener("click", function(){
     else inp.classList.add("wrong");
   });
   $("ex2fb").innerHTML = "<b>Gợi ý:</b> đá, sút, chạy, đuổi, chuyền, chặn, bắt (bóng), ngã, dang (tay), vẫy, gọi, gặm (cỏ)... Ô đỏ là từ chưa phù hợp với tranh, chưa phải động từ chỉ hoạt động, hoặc bị viết lặp lại. Nếu em tin từ của mình đúng, hãy hỏi lại thầy cô nhé!";
+  if(s2 < m2) wrongList.push("Bài 2");
   $("ex2").classList.add("done", s2 === m2 ? "ok" : "bad");
 
   // Bài 3
@@ -540,6 +543,7 @@ $("submitBtn").addEventListener("click", function(){
   });
   EX3.forEach(function(r){ fb3.push(r[0] + ") " + r[2]); });
   $("ex3fb").innerHTML = "<b>Giải thích:</b><br>" + fb3.join("<br>");
+  if(s3 < m3) wrongList.push("Bài 3");
   $("ex3").classList.add("done", s3 === m3 ? "ok" : "bad");
 
   // Bài 4
@@ -569,7 +573,7 @@ $("submitBtn").addEventListener("click", function(){
       method: "POST",
       mode: "no-cors",
       headers: {"Content-Type": "text/plain;charset=utf-8"},
-      body: JSON.stringify({ bai: BAI, hoten: nameI.value.trim(), lop: classI.value.trim(), diem: earned, tongdiem: possible })
+      body: JSON.stringify({ bai: BAI, hoten: nameI.value.trim(), lop: classI.value.trim(), diem: earned, tongdiem: possible, causai: wrongList.join(", ") })
     }).catch(function(){ $("sendst").textContent = "Chưa gửi được điểm (mất mạng). Em chụp màn hình gửi thầy cô nhé!"; });
   }catch(e){ $("sendst").textContent = "Chưa gửi được điểm. Em chụp màn hình gửi thầy cô nhé!"; }
 
