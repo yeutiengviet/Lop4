@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiếng Việt 4 – Giữa học kì I – Đề 3 – Trước ngày xa quê</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:ital,wght@0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --leaf:#2f8f5b; --leaf-dark:#1f6a42; --leaf-soft:#e3f5ea;
+  --sun:#ffb53d; --petal:#f26d85; --ink:#23402f; --paper:#fffdf6; --line:#d6e6d9;
+  --ok:#1f9d63; --ok-bg:#e2f7eb; --bad:#e04f4f; --bad-bg:#fdeaea;
+  --dark:#2e3470; --soft:#557a63;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:'Nunito',system-ui,Arial,sans-serif;color:var(--ink);font-size:17px;line-height:1.6;
+  background:linear-gradient(180deg,#e8e6f6 0,#eef8ee 420px,#f4faef 100%);}
+h1,h2,h3{font-family:'Baloo 2','Nunito',system-ui,sans-serif;line-height:1.2;margin:0}
+.wrap{max-width:820px;margin:0 auto;padding:0 14px 80px}
+.hidden{display:none!important}
+
+/* ---- âm thanh ---- */
+.snd{position:fixed;top:10px;right:10px;z-index:50;width:46px;height:46px;border-radius:50%;border:2px solid #ffe2a8;background:#fff;font-size:22px;box-shadow:0 4px 12px rgba(0,0,0,.12);cursor:pointer}
+
+/* ---- tranh đầu trang ---- */
+.hero{position:relative;margin:0 -14px;overflow:hidden}
+.hero svg{display:block;width:100%;height:auto}
+.hero-title{position:absolute;left:0;right:0;top:4%;text-align:center;padding:0 12px}
+.hero-title .wk{display:inline-block;white-space:nowrap;font-size:12.5px!important;background:#fff;color:var(--leaf-dark);font-weight:800;border-radius:999px;padding:3px 14px;box-shadow:0 3px 0 rgba(31,106,66,.18)}
+.hero-title h1{font-size:clamp(26px,7.4vw,60px);color:#fff;font-weight:800;text-shadow:0 3px 0 var(--dark),0 6px 14px rgba(0,0,0,.25);margin-top:4px}
+.cloud{animation:drift 30s linear infinite alternate}
+@keyframes drift{to{transform:translateX(40px)}}
+.fly{animation:bob 4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes bob{50%{transform:translate(8px,-10px) rotate(4deg)}}
+.twinkle{animation:tw 2.4s ease-in-out infinite}
+@keyframes tw{50%{opacity:.3}}
+.sway{animation:sway 5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes sway{50%{transform:rotate(3deg)}}
+
+/* ---- thẻ chung ---- */
+.card{background:var(--paper);border:2px solid var(--line);border-radius:22px;padding:20px 18px;margin-top:18px;box-shadow:0 6px 0 #cfe3d2}
+.info{display:grid;grid-template-columns:1fr 130px;gap:12px}
+.info label{font-weight:800;font-size:15px;display:block;margin-bottom:4px}
+.info input,.info select{width:100%;font:inherit;padding:11px 14px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink)}
+.info input[readonly]{background:#f3f6fa;color:var(--soft)}
+.info .full{grid-column:1/-1}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+.progress-wrap{margin-top:18px}
+.plabel{display:flex;justify-content:space-between;font-weight:800;color:var(--soft);font-size:14.5px;margin-bottom:6px}
+#pcount{color:var(--petal);font-size:16px}
+.track{position:relative;height:30px;border-radius:999px;background:#e3ecf4;border:2px solid #d5e0ec;overflow:hidden}
+.fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--sun),var(--petal));border-radius:999px;transition:width .4s}
+.walker{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);font-size:18px;transition:left .4s}
+
+.section-h{display:flex;align-items:center;gap:12px;margin:34px 0 0}
+.section-h .ico{flex:none;width:54px;height:54px}
+.section-h h2{font-size:28px;color:var(--leaf-dark)}
+.section-h p{margin:0;font-size:15px;color:var(--soft)}
+
+/* ---- bài đọc ---- */
+.story h3{text-align:center;font-size:28px;color:var(--petal);letter-spacing:1px;margin-bottom:10px}
+.story p{margin:0 0 10px;text-align:left}
+.story .say{padding-left:14px;border-left:4px solid var(--sun);font-style:italic}
+.story .author{text-align:right;font-style:italic;font-weight:700;color:var(--soft);margin:0}
+.lead{font-weight:800;margin:18px 0 0}
+.note{font-size:14.5px;color:var(--soft);margin:8px 0 0}
+
+/* ---- câu hỏi ---- */
+.q{border:3px solid transparent;transition:border-color .2s,background .2s;position:relative}
+.q.ok{border-color:var(--ok);background:#f2fbf7}
+.q.no{border-color:var(--bad);background:#fff5f4}
+.qlab{display:inline-block;background:var(--leaf);color:#fff;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:16px;padding:2px 14px;border-radius:999px;margin-bottom:8px;box-shadow:0 3px 0 var(--leaf-dark)}
+.qt{font-weight:800;font-size:18px;margin:0 0 12px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;font-size:17px;color:var(--ink);cursor:pointer;min-height:52px}
+.opt .ltr{flex:none;width:32px;height:32px;border-radius:50%;background:#f7fbf7;border:2px solid #b9d3bf;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.opt:not(:disabled):hover{background:var(--leaf-soft);border-color:#a8d8bb}
+.opt:not(:disabled):active{transform:scale(.98)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--ok-bg);border-color:var(--ok)}
+.opt.right .ltr{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.opt.wrong .ltr{background:var(--bad);border-color:var(--bad);color:#fff}
+.fb{display:none;margin-top:12px;padding:12px 14px;border-radius:14px;font-weight:600;font-size:15.5px;line-height:1.55}
+.q.ok>.fb,.sub.ok>.fb{display:block;background:#e4f7ee;color:#17784b}
+.q.no>.fb,.sub.no>.fb{display:block;background:#ffe9e6;color:#a8321f}
+.fb b{display:block;font-size:17px;margin-bottom:2px}
+
+textarea{width:100%;min-height:110px;font:inherit;padding:12px 14px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);resize:vertical}
+textarea:disabled{background:#f3f6f3}
+.sugg{display:none;margin-top:12px;background:#fff6dd;border:2px dashed var(--sun);border-radius:14px;padding:12px 14px;font-size:15.5px}
+.graded .sugg{display:block}
+
+.frow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin-top:9px;background:#fff}
+.frow label{font-weight:800;flex:none}
+.frow input{flex:1;min-width:130px;font:inherit;font-weight:800;font-size:18px;padding:8px 10px;border:none;border-bottom:3px dotted #b9c3d4;background:transparent;color:var(--petal)}
+.frow input:focus{outline:none;border-bottom-color:var(--sun)}
+.frow .fix{display:none;flex-basis:100%;font-weight:800;color:var(--ok);font-size:14.5px}
+.frow.right{border-color:var(--ok);background:var(--ok-bg)}
+.frow.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.frow.wrong .fix{display:block}
+.btn{font-family:'Baloo 2','Nunito',sans-serif;font-weight:800;font-size:22px;border:0;border-radius:999px;padding:12px 38px;cursor:pointer;background:var(--sun);color:#5a3a00;box-shadow:0 6px 0 #d18a12}
+.btn:active{transform:translateY(3px);box-shadow:0 3px 0 #d18a12}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn.green{background:var(--leaf);color:#fff;box-shadow:0 6px 0 var(--leaf-dark);font-size:18px;padding:9px 28px;margin-top:12px}
+.btn.green:active{box-shadow:0 3px 0 var(--leaf-dark)}
+
+.sentbox{background:#fff;border-left:6px solid var(--sun);border-radius:12px;padding:10px 16px;margin:0 0 12px;font-weight:700}
+.sub{border:2px solid var(--line);border-radius:16px;padding:12px;margin-top:10px;background:#fff}
+.sub.ok{border-color:var(--ok);background:#f2fbf7}
+.sub.no{border-color:var(--bad);background:#fff5f4}
+.slab{font-weight:800;color:var(--leaf-dark);margin-bottom:8px}
+.duo{display:flex;gap:10px}
+.duo .opt{justify-content:center;text-align:center}
+
+.submit-zone{text-align:center;margin-top:30px}
+#msg{color:var(--bad);font-weight:800;min-height:26px;margin:10px 0 0}
+#result{display:none;text-align:center;background:linear-gradient(180deg,#fff8e1,#fffdf6);border-color:var(--sun);box-shadow:0 6px 0 #f0cf86}
+#result.show{display:block}
+#result .em{font-size:60px;line-height:1}
+#result .sc{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:44px;color:var(--leaf-dark);line-height:1.1}
+#result .s10{font-weight:800;color:#b36b00}
+#result table{margin:12px auto;border-collapse:collapse;font-size:15.5px}
+#result td{padding:4px 12px;border-bottom:1px dashed var(--line);text-align:left}
+#result td:last-child{text-align:right;font-weight:800}
+.rsend{font-weight:700;font-size:14.5px;color:var(--soft);margin:8px 0}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.confetti i{position:absolute;top:-20px;font-style:normal;font-size:22px;animation:fall 1.4s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(360deg);opacity:.8}}
+.graded .opt,.graded .btn.green{cursor:default}
+
+@media (max-width:600px){
+  body{font-size:16px}
+  .info{grid-template-columns:1fr}
+  .section-h h2{font-size:24px}
+  .duo{flex-direction:column}
+  .snd{width:40px;height:40px;font-size:19px;top:8px;right:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  .cloud,.fly,.twinkle,.sway{animation:none}
+  *{transition:none!important}
+  .confetti i{animation:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<button class="snd" id="sndBtn" type="button" aria-label="Bật hoặc tắt âm thanh" title="Bật/tắt âm thanh">🔊</button>
+
+<div class="wrap">
+
+<div class="hero">
+<svg viewBox="0 -120 820 520" role="img" aria-label="Tranh vẽ buổi chiều hoàng hôn ở làng quê: một bạn nhỏ đeo ba lô đứng trên con đường làng gồ ghề giữa ruộng lúa chín vàng, bên lùm cây ổi và đống rơm, xa xa là thành phố">
+  <defs>
+    <linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b6bb2"/><stop offset=".55" stop-color="#e59aa6"/><stop offset="1" stop-color="#ffd2a8"/></linearGradient>
+    <radialGradient id="sg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff0b0"/><stop offset=".5" stop-color="#ffb53d"/><stop offset="1" stop-color="#ffb53d" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect y="-120" width="820" height="520" fill="url(#sk)"/>
+  <!-- sao -->
+  <g fill="#fff">
+    <circle class="twinkle" cx="40" cy="-92" r="2.6"/>
+    <circle class="twinkle" cx="780" cy="-96" r="2.6" style="animation-delay:.8s"/>
+    <circle class="twinkle" cx="735" cy="-40" r="2.2" style="animation-delay:1.6s"/>
+    <circle class="twinkle" cx="70" cy="-30" r="2.2" style="animation-delay:1.2s"/>
+    <circle class="twinkle" cx="800" cy="10" r="2" style="animation-delay:.4s"/>
+  </g>
+  <!-- mặt trời lặn -->
+  <circle cx="610" cy="262" r="100" fill="url(#sg)"/><circle cx="610" cy="262" r="38" fill="#ffb53d"/>
+  <!-- mây -->
+  <g class="cloud" fill="#fff" opacity=".8"><ellipse cx="120" cy="132" rx="48" ry="14"/><ellipse cx="152" cy="122" rx="30" ry="13"/></g>
+  <g class="cloud" fill="#fff" opacity=".8" style="animation-delay:-12s"><ellipse cx="520" cy="176" rx="42" ry="12"/><ellipse cx="546" cy="167" rx="26" ry="11"/></g>
+  <!-- thành phố phía xa -->
+  <g fill="#6a62a3">
+    <rect x="560" y="250" width="22" height="55"/><rect x="586" y="232" width="26" height="73"/><rect x="616" y="258" width="20" height="47"/>
+    <rect x="640" y="240" width="28" height="65"/><rect x="672" y="262" width="22" height="43"/><rect x="698" y="226" width="24" height="79"/>
+    <rect x="726" y="252" width="30" height="53"/><rect x="760" y="270" width="26" height="35"/>
+  </g>
+  <g fill="#ffe08a">
+    <rect class="twinkle" x="592" y="244" width="4" height="5"/><rect class="twinkle" x="704" y="240" width="4" height="5" style="animation-delay:.9s"/>
+    <rect class="twinkle" x="646" y="254" width="4" height="5" style="animation-delay:1.7s"/><rect class="twinkle" x="566" y="266" width="4" height="5" style="animation-delay:.5s"/>
+  </g>
+  <!-- đồi xa, đồi gần -->
+  <path d="M0 304 Q130 262 270 296 T540 290 T820 300 V400 H0Z" fill="#9a88bd"/>
+  <path d="M0 326 Q210 288 410 322 T820 316 V400 H0Z" fill="#7fbf78"/>
+  <!-- ruộng lúa chín -->
+  <path d="M0 352 Q250 328 520 350 T820 344 V400 H0Z" fill="#f0c24a"/>
+  <!-- con đường làng gồ ghề -->
+  <path d="M230 400 Q380 368 640 332 L654 336 Q470 372 410 400 Z" fill="#c99a5b" stroke="#a8782a" stroke-width="2.5" stroke-linejoin="round"/>
+  <g fill="#a8782a"><ellipse cx="300" cy="388" rx="8" ry="4"/><ellipse cx="362" cy="378" rx="6" ry="3"/><ellipse cx="436" cy="366" rx="7" ry="3"/><ellipse cx="530" cy="352" rx="5" ry="2.5"/></g>
+  <g fill="#ecd39a"><ellipse cx="330" cy="394" rx="5" ry="2.5"/><ellipse cx="398" cy="372" rx="4" ry="2"/><ellipse cx="480" cy="360" rx="4" ry="2"/></g>
+  <!-- lùm cây ổi, mâm xôi -->
+  <g>
+    <circle cx="110" cy="352" r="28" fill="#2f8f5b"/><circle cx="152" cy="342" r="32" fill="#2f8f5b"/><circle cx="194" cy="354" r="26" fill="#2f8f5b"/>
+    <circle cx="132" cy="334" r="16" fill="#48b06f"/><circle cx="176" cy="340" r="14" fill="#48b06f"/>
+    <g fill="#c8e06b"><circle cx="100" cy="348" r="4.5"/><circle cx="150" cy="330" r="4.5"/><circle cx="174" cy="352" r="4.5"/></g>
+    <g fill="#e0457b"><circle cx="128" cy="360" r="3.5"/><circle cx="198" cy="346" r="3.5"/><circle cx="118" cy="340" r="3.5"/></g>
+  </g>
+  <!-- đống rơm -->
+  <g><path d="M690 374 q0 -36 32 -36 q32 0 32 36z" fill="#f7d56a" stroke="#b9892a" stroke-width="3" stroke-linejoin="round"/><path d="M702 366 l10 -18 M718 368 l2 -24 M734 366 l-8 -18" stroke="#b9892a" stroke-width="2.5" stroke-linecap="round"/></g>
+  <!-- khóm lúa đung đưa -->
+  <g class="sway" fill="none" stroke="#c98f1c" stroke-width="3" stroke-linecap="round"><path d="M28 396 v-24 M40 398 v-28 M52 396 v-22 M64 398 v-27 M76 396 v-23"/><g fill="#f7d56a" stroke="none"><ellipse cx="28" cy="370" rx="3" ry="6"/><ellipse cx="40" cy="367" rx="3" ry="6"/><ellipse cx="52" cy="372" rx="3" ry="6"/><ellipse cx="64" cy="369" rx="3" ry="6"/><ellipse cx="76" cy="373" rx="3" ry="6"/></g></g>
+  <g class="sway" style="animation-delay:-2s" fill="none" stroke="#c98f1c" stroke-width="3" stroke-linecap="round"><path d="M560 398 v-24 M572 396 v-28 M584 398 v-22 M596 396 v-27 M608 398 v-23"/><g fill="#f7d56a" stroke="none"><ellipse cx="560" cy="372" rx="3" ry="6"/><ellipse cx="572" cy="369" rx="3" ry="6"/><ellipse cx="584" cy="374" rx="3" ry="6"/><ellipse cx="596" cy="371" rx="3" ry="6"/><ellipse cx="608" cy="375" rx="3" ry="6"/></g></g>
+  <!-- bạn nhỏ đeo ba lô -->
+  <g transform="translate(345 394) scale(1.5)">
+    <rect x="-6" y="-14" width="5" height="14" fill="#3a4a7a"/><rect x="1" y="-14" width="5" height="14" fill="#3a4a7a"/>
+    <rect x="-10" y="-40" width="20" height="28" rx="6" fill="#f26d85"/>
+    <rect x="-17" y="-38" width="9" height="22" rx="3" fill="#ffb53d" stroke="#a8782a" stroke-width="2"/>
+    <circle cx="0" cy="-50" r="10" fill="#f6cfa8"/>
+    <path d="M-10 -52 q10 -14 20 0z" fill="#2b2540"/>
+    <circle cx="-3.5" cy="-50" r="1.3" fill="#2b2540"/><circle cx="3.5" cy="-50" r="1.3" fill="#2b2540"/>
+    <path d="M-3 -44 q3 -3 6 0" fill="none" stroke="#2b2540" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+  <!-- chim bay về tổ -->
+  <g transform="translate(250 190)"><path class="fly" d="M0 0 q8 -9 16 0 q8 -9 16 0" fill="none" stroke="#3b3560" stroke-width="2.5" stroke-linecap="round"/></g>
+  <g transform="translate(300 168)"><path class="fly" style="animation-delay:1.2s" d="M0 0 q8 -9 16 0 q8 -9 16 0" fill="none" stroke="#3b3560" stroke-width="2.5" stroke-linecap="round"/></g>
+  <g transform="translate(214 160)"><path class="fly" style="animation-delay:2.4s" d="M0 0 q8 -9 16 0 q8 -9 16 0" fill="none" stroke="#3b3560" stroke-width="2.5" stroke-linecap="round"/></g>
+</svg>
+<div class="hero-title"><span class="wk">Tiếng Việt 4 – Giữa kì I – Đề 3</span><h1>Trước ngày xa quê</h1></div>
+</div>
+
+<div class="card info">
+  <div id="nameBox"><label for="studentName">Họ và tên của con</label><input id="studentName" type="text" autocomplete="off" placeholder="Nhập họ và tên của em..."></div>
+  <div id="rosterBox" class="hidden"><label for="rosterSel">Con chọn tên của mình nhé</label><select id="rosterSel"></select><input id="otherName" type="text" class="hidden" autocomplete="off" placeholder="Nhập họ và tên của em..." style="margin-top:8px"></div>
+  <div><label for="studentClass">Lớp</label><input id="studentClass" type="text" autocomplete="off" placeholder="VD: 4A"></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="plabel"><span>Đường đi của em</span><span id="pcount">0 / 10 câu</span></div>
+  <div class="track"><div class="fill" id="pfill"></div><div class="walker" id="pwalk">🎒</div></div>
+</div>
+
+<div class="section-h">
+  <svg class="ico" viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="27" fill="#ffe2a8"/><path d="M10 18 q9 -5 17 0 v22 q-8 -5 -17 0z" fill="#fff" stroke="#2f8f5b" stroke-width="2.5" stroke-linejoin="round"/><path d="M44 18 q-9 -5 -17 0 v22 q8 -5 17 0z" fill="#fff" stroke="#2f8f5b" stroke-width="2.5" stroke-linejoin="round"/><path d="M14 24 h9 M14 29 h9 M31 24 h9 M31 29 h9" stroke="#f26d85" stroke-width="2" stroke-linecap="round"/></svg>
+  <div><h2>II. Đọc hiểu</h2><p>Phần I (đọc thành tiếng) cô kiểm tra trực tiếp ở lớp.</p></div>
+</div>
+
+<p class="lead">Đọc thầm đoạn văn sau và thực hiện các yêu cầu:</p>
+
+<div class="card story">
+  <h3>TRƯỚC NGÀY XA QUÊ</h3>
+  <p>Bố quyết định cho tôi lên thành phố học. Nghe bố tôi nói, tôi oà khóc như khi bị đòn oan. Tôi không muốn đi nhưng vẫn phải chuẩn bị lên đường.</p>
+  <p>Chiều trước ngày xa quê, các bạn đến chơi tiễn tôi, cả thầy giáo của tôi nữa. Khác hẳn mọi khi, chúng tôi chẳng mấy đứa cười đùa, kẹo cũng chẳng buồn ăn. Trong khi thầy giáo ngồi nói chuyện với bố mẹ tôi, chúng tôi thầm nhắc lại những trò nghịch ngợm vừa qua và ngẩn ngơ hỏi nhau thành phố nơi tôi sắp đến như thế nào, có giống quê mình không… Tôi biết nơi đó có những chiếc xe sang trọng phóng vun vút trên đường nhựa phẳng lì. Nhưng nơi ấy thật xa lạ. Quê tôi ở đây, con đường làng gồ ghề, vàng óng rơm mùa gặt, những lùm cây giấu đầy quả ổi, quả mâm xôi chín mọng. Nước mắt tôi ứa ra. Không, tôi không thích đi. Tôi chỉ muốn được ở đây giữa các bạn và thầy giáo. Như đoán được ý nghĩ của tôi, thầy giáo đến bên lau nước mắt cho tôi, xoa đầu tôi và cúi xuống nắm lấy hai bàn tay tôi:</p>
+  <p class="say">– Bao giờ nghỉ hè, em sẽ lại được về đây chơi với thầy và các bạn.</p>
+  <p>Buổi chia tay kéo dài mãi đến khi trời tối mịt. Chúng tôi còn muốn ngồi với nhau nữa nhưng thầy nhắc các bạn phải về để mai tôi lên đường sớm. Tôi muốn nói điều gì đó với thầy và các bạn nhưng không sao nói nổi. Vậy là tôi phải xa quê, nơi tôi đã từng đội nắng đội gió mà lớn lên với tình yêu thương vô hạn.</p>
+  <p class="author">(Theo Kao Sơn)</p>
+</div>
+
+<p class="note" style="margin-top:14px">Con chạm vào đáp án hoặc bấm “Kiểm tra câu này”, máy sẽ báo đúng hay sai ngay. Câu đã chấm sẽ được khóa lại.</p>
+
+<div id="qzone"></div>
+
+<div class="section-h">
+  <svg class="ico" viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="27" fill="#cfeaf6"/><path d="M14 40 l4 -12 l16 -16 l8 8 l-16 16z" fill="#ffb53d" stroke="#b36b00" stroke-width="2.5" stroke-linejoin="round"/><path d="M34 12 l8 8" stroke="#b36b00" stroke-width="2.5"/><path d="M14 40 l4 -12 l8 8z" fill="#f6cfa8" stroke="#b36b00" stroke-width="2" stroke-linejoin="round"/></svg>
+  <div><h2>Kiểm tra viết</h2><p>Bài này cô sẽ chấm, không tính điểm tự động.</p></div>
+</div>
+
+<div class="card q" id="cw">
+  <span class="qlab">Bài viết</span>
+  <p class="qt">Đề bài: Em hãy kể lại một sự việc được chứng kiến hoặc tham gia mà em yêu thích nhất.</p>
+  <textarea id="tw" style="min-height:260px" placeholder="Em viết bài của mình vào đây..." aria-label="Bài viết"></textarea>
+  <p class="note">✏️ Phần này cô sẽ chấm.</p>
+  <div class="sugg"><b>Gợi ý để em tự soát bài:</b> <b>Mở bài</b> giới thiệu sự việc định kể, nói rõ thời gian, địa điểm hoặc hoàn cảnh. <b>Thân bài</b> kể diễn biến theo trình tự thời gian, có hoạt động và chi tiết cụ thể, có hành động, lời nói hoặc hình ảnh đáng nhớ, thể hiện em đã chứng kiến hoặc tham gia. <b>Kết bài</b> nêu kết quả, cảm xúc hoặc suy nghĩ của em. Em nhớ viết câu đúng ngữ pháp, dùng từ đúng và không sai chính tả.</div>
+</div>
+
+<div class="submit-zone">
+  <button class="btn" id="submitBtn" type="button">Nộp bài</button>
+  <p id="msg" role="alert"></p>
+</div>
+
+<div class="card" id="result" tabindex="-1">
+  <div class="em" id="rEm"></div>
+  <div class="sc" id="rSc"></div>
+  <div class="s10" id="r10"></div>
+  <p id="rMsg" style="font-weight:800;margin:8px 0 0"></p>
+  <p class="note">Điểm trên chỉ tính các câu máy chấm được. Câu 5, phần giải thích câu 10 và bài viết cô sẽ chấm riêng.</p>
+  <table id="rTab"></table>
+  <div class="rsend" id="rsend"></div>
+  <button class="btn green" id="retryBtn" type="button">Làm lại từ đầu</button>
+</div>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+var GAS_URL='https://script.google.com/macros/s/AKfycbxcmRHrOmXUrow5v79Xe0Eagd_rfxD8nxGqnTwjnieRWuLZBpgVORHnRJ3ec_4WQ7nI/exec';
+var LOP_LINK=new URLSearchParams(location.search).get('lop')||'';
+var BAI='Giữa học kì I - Đề 3';
+
+/* ---------- dữ liệu ---------- */
+var MC=[
+ {id:'c1',label:'Câu 1',q:'Vì sao bạn nhỏ phải xa quê?',
+  o:['Vì bạn nhỏ muốn đi du lịch cùng gia đình.','Vì bố quyết định cho bạn nhỏ lên thành phố học.','Vì bạn nhỏ muốn đến thăm người thân.','Vì bạn nhỏ không thích học ở quê.'],a:1,
+  e:'Ngay đầu bài, bố quyết định cho bạn nhỏ lên thành phố học nên bạn phải xa quê.'},
+ {id:'c2',label:'Câu 2',q:'Chi tiết nào thể hiện sự quan tâm, yêu thương của thầy giáo đối với bạn nhỏ?',
+  o:['Thầy kể chuyện về thành phố.','Thầy lau nước mắt, xoa đầu và nắm lấy hai bàn tay bạn nhỏ.','Thầy đưa bạn nhỏ đi chơi.','Thầy cùng các bạn chuẩn bị hành lí.'],a:1,
+  e:'Thầy đến bên lau nước mắt, xoa đầu và nắm lấy hai bàn tay bạn nhỏ: đó là cử chỉ quan tâm, yêu thương.'},
+ {id:'c3',label:'Câu 3',q:'Trong buổi chia tay, những ai đến tiễn bạn nhỏ?',
+  o:['Chỉ có người thân trong gia đình.','Chỉ có các bạn cùng lớp.','Các bạn và thầy giáo của bạn nhỏ.','Các bạn và hàng xóm trong làng.'],a:2,
+  e:'Chiều trước ngày xa quê, các bạn đến chơi tiễn bạn nhỏ, cả thầy giáo cũng đến.'},
+ {id:'c4',label:'Câu 4',q:'Tình cảm nổi bật của bạn nhỏ trong câu chuyện là gì?',
+  o:['Háo hức, mong chờ được đến thành phố.','Tự hào vì được xa quê.','Lưu luyến, yêu thương thầy giáo, bạn bè và quê hương.','Lo lắng vì chưa biết đường đến trường mới.'],a:2,
+  e:'Bạn nhỏ không muốn đi, nước mắt ứa ra, chỉ muốn ở lại giữa thầy và các bạn: đó là sự lưu luyến, yêu thương.'},
+ {id:'c6',label:'Câu 6',q:'Theo từ điển, từ gồ ghề có nghĩa là gì?',
+  o:['Bằng phẳng, dễ đi.','Có nhiều chỗ lồi lõm, không bằng phẳng.','Rộng rãi, thoáng đãng.','Khúc khuỷu, quanh co nhưng bằng phẳng.'],a:1,
+  e:'Gồ ghề là có nhiều chỗ lồi lõm, không bằng phẳng, như con đường làng trong bài.'},
+ {id:'c7',label:'Câu 7',q:'Cách viết tên cơ quan, tổ chức nào dưới đây đúng?',
+  o:['Đài tiếng nói Việt Nam.','Tập đoàn Viễn thông Quân đội.','Hội Liên Hiệp Phụ Nữ Việt Nam.','Quỹ Nhi đồng Liên Hợp Quốc.'],a:1,
+  e:'Tên cơ quan, tổ chức viết hoa chữ cái đầu của mỗi bộ phận tạo thành tên. Các cách viết đúng là: Đài Tiếng nói Việt Nam; Hội Liên hiệp Phụ nữ Việt Nam; Quỹ Nhi đồng Liên hợp quốc.'},
+ {id:'c9',label:'Câu 9',q:'Nội dung chính của đoạn văn kể về buổi chia tay bạn nhỏ với thầy giáo và các bạn là gì?',
+  o:['Kể về những trò nghịch ngợm của các bạn nhỏ.','Thể hiện sự lưu luyến của bạn nhỏ trong buổi chia tay trước ngày xa quê.','Miêu tả cảnh thành phố nơi bạn nhỏ sắp đến.','Kể về việc gia đình chuẩn bị hành lí cho bạn nhỏ.'],a:1,
+  e:'Cả đoạn kể buổi chia tay kéo dài đến tối mịt, bạn nhỏ muốn nói mà không nói nổi: thể hiện sự lưu luyến.'}
+];
+var NOUNS=['người bạn','bạn nhỏ','người','bạn','ngày','quê'];
+var VERBS=['tiễn','tiễn đưa','xa'];
+var SUBS=[
+ {p:'a',label:'Câu 10a',sent:'a) Bố em đang sơn lại cánh cửa.',a:1,e:'Ở câu a, “sơn” là động từ, chỉ hoạt động phủ sơn lên bề mặt đồ vật.'},
+ {p:'b',label:'Câu 10b',sent:'b) Chiếc hộp sơn được đặt ở góc sân.',a:0,e:'Ở câu b, “sơn” là danh từ, chỉ một loại chất dùng để phủ lên bề mặt đồ vật.'}
+];
+var KIND=['Danh từ','Động từ'];
+var ITEMS=[['c1','Câu 1'],['c2','Câu 2'],['c3','Câu 3'],['c4','Câu 4'],['c6','Câu 6'],['c7','Câu 7'],['c8','Câu 8'],['c9','Câu 9'],['c10a','Câu 10a'],['c10b','Câu 10b']];
+var MAXP={c8:2};
+var LET=['A','B','C','D'];
+var PRAISE=['Giỏi quá!','Chính xác!','Tuyệt vời!','Con làm tốt lắm!','Hay lắm!','Đúng rồi, cố lên nào!'];
+var COMFORT=['Đừng lo, con xem lại nhé.','Không sao, lần sau con sẽ làm được.','Cố gắng lên con nhé!','Xem đáp án rồi nhớ nhé.'];
+
+function $(id){return document.getElementById(id);}
+function maxOf(id){return MAXP[id]||1;}
+function norm(s){return (s||'').toString().normalize('NFC').trim().toLowerCase().replace(/[.,!?;:"“”'’]/g,'').replace(/\s+/g,' ').trim();}
+
+var res={},soundOn=true,actx=null,graded=false,warned=false;
+
+/* ---------- âm thanh ---------- */
+function ctx(){
+  try{ if(!actx){ actx=new (window.AudioContext||window.webkitAudioContext)(); } if(actx.state==='suspended') actx.resume(); }catch(e){ actx=null; }
+  return actx;
+}
+function tone(freq,start,dur,type,vol){
+  var c=ctx(); if(!c) return;
+  var o=c.createOscillator(),g=c.createGain();
+  o.type=type; o.frequency.value=freq;
+  var t=c.currentTime+start;
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(vol,t+0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(t); o.stop(t+dur+0.05);
+}
+function playRight(){ if(!soundOn) return; tone(988,0,0.18,'sine',0.25); tone(1319,0.14,0.3,'sine',0.25); }
+function playWrong(){ if(!soundOn) return; tone(247,0,0.22,'triangle',0.22); tone(196,0.16,0.3,'triangle',0.2); }
+$('sndBtn').addEventListener('click',function(){
+  soundOn=!soundOn; this.textContent=soundOn?'🔊':'🔇';
+  if(soundOn){ tone(660,0,0.12,'sine',0.15); }
+});
+function burst(){
+  var box=document.createElement('div'); box.className='confetti';
+  var em=['🎉','⭐','🌟','✨','🎈'];
+  for(var i=0;i<22;i++){
+    var s=document.createElement('i'); s.textContent=em[i%em.length];
+    s.style.left=(Math.random()*100)+'%'; s.style.animationDelay=(Math.random()*0.5)+'s';
+    box.appendChild(s);
+  }
+  document.body.appendChild(box); setTimeout(function(){box.remove();},2200);
+}
+
+/* ---------- dựng câu hỏi ---------- */
+function card(id,html){
+  var d=document.createElement('div'); d.className='card q'; d.id=id; d.innerHTML=html; return d;
+}
+function build(){
+  var z=$('qzone'); z.innerHTML='';
+  var mcById={}; MC.forEach(function(m,i){mcById[m.id]=i;});
+  ['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10'].forEach(function(id){
+    var h;
+    if(mcById[id]!==undefined){
+      var m=MC[mcById[id]];
+      h='<span class="qlab">'+m.label+'</span><p class="qt">'+m.q+'</p><div class="opts">';
+      m.o.forEach(function(t,k){
+        h+='<button type="button" class="opt" data-kind="mc" data-i="'+mcById[id]+'" data-k="'+k+'"><span class="ltr">'+LET[k]+'</span><span>'+t+'</span></button>';
+      });
+      h+='</div><div class="fb"></div>';
+    }else if(id==='c5'){
+      h='<span class="qlab">Câu 5</span><p class="qt">Theo em, vì sao bạn nhỏ không muốn xa quê dù biết thành phố có nhiều điều mới lạ? Qua câu chuyện, em rút ra được bài học gì?</p>'+
+        '<textarea id="t5" placeholder="Em viết câu trả lời của mình vào đây..." aria-label="Câu trả lời câu 5"></textarea>'+
+        '<p class="note">✏️ Câu này cô sẽ chấm, không tính điểm tự động.</p>'+
+        '<div class="sugg"><b>Gợi ý để em đối chiếu:</b> Bạn nhỏ không muốn xa quê vì nơi đây có rất nhiều kỉ niệm gắn với tuổi thơ lớn lên của mình. Bài học: mỗi người cần biết yêu thương, trân trọng quê hương, tình thầy trò và tình bạn, đồng thời biết giữ gìn những tình cảm tốt đẹp dù đi đến bất cứ nơi đâu.</div>';
+    }else if(id==='c8'){
+      h='<span class="qlab">Câu 8</span><p class="qt">Tìm một danh từ chung và một động từ trong câu sau: “Những người bạn tiễn bạn nhỏ trước ngày xa quê.”</p>'+
+        '<div class="frow" id="r8a"><label for="i8a">Danh từ chung:</label><input id="i8a" type="text" autocomplete="off" autocapitalize="none" spellcheck="false"><span class="fix"></span></div>'+
+        '<div class="frow" id="r8b"><label for="i8b">Động từ:</label><input id="i8b" type="text" autocomplete="off" autocapitalize="none" spellcheck="false"><span class="fix"></span></div>'+
+        '<button type="button" class="btn green" id="chk8" disabled>Kiểm tra câu này</button><div class="fb"></div>';
+    }else if(id==='c10'){
+      h='<span class="qlab">Câu 10</span><p class="qt">Đọc hai câu sau:</p>'+
+        '<div class="sentbox">'+SUBS[0].sent+'<br>'+SUBS[1].sent+'</div>'+
+        '<p class="qt" style="margin-bottom:0">Từ “sơn” trong hai câu trên là danh từ hay động từ? Giải thích.</p>';
+      SUBS.forEach(function(s,si){
+        h+='<div class="sub" id="s10'+s.p+'"><div class="slab">'+s.label+': '+s.sent.slice(3)+'</div><div class="duo">'+
+           '<button type="button" class="opt" data-kind="q10" data-p="'+si+'" data-k="0"><span>Danh từ</span></button>'+
+           '<button type="button" class="opt" data-kind="q10" data-p="'+si+'" data-k="1"><span>Động từ</span></button></div><div class="fb"></div></div>';
+      });
+      h+='<p class="qt" style="margin:14px 0 6px">Em giải thích vì sao:</p><textarea id="t10" style="min-height:90px" placeholder="Em viết lời giải thích vào đây..." aria-label="Giải thích câu 10"></textarea>'+
+         '<p class="note">✏️ Phần giải thích này cô sẽ chấm, không tính điểm tự động.</p>';
+    }
+    z.appendChild(card(id,h));
+  });
+}
+
+/* ---------- chấm từng câu ---------- */
+function update(){
+  var n=Object.keys(res).length,pct=Math.round(n/ITEMS.length*100);
+  $('pfill').style.width=pct+'%';
+  $('pwalk').style.left=Math.min(Math.max(pct,3),97)+'%';
+  $('pcount').textContent=n+' / '+ITEMS.length+' câu';
+}
+function gradeMC(i,k,silent){
+  var m=MC[i]; if(res[m.id]!==undefined) return;
+  var ok=(k===m.a); res[m.id]=ok?1:0;
+  var c=$(m.id);
+  c.querySelectorAll('.opt').forEach(function(b,j){
+    b.disabled=true;
+    if(j===m.a) b.classList.add('right'); else if(j===k) b.classList.add('wrong');
+  });
+  c.classList.add(ok?'ok':'no');
+  var ans=LET[m.a]+'. '+m.o[m.a], fb=c.querySelector('.fb');
+  if(ok) fb.innerHTML='<b>✅ Đúng rồi! '+PRAISE[i%PRAISE.length]+'</b>'+m.e;
+  else if(k===-1) fb.innerHTML='<b>Chưa có câu trả lời</b>Đáp án đúng là: <b style="display:inline">'+ans+'</b><br>'+m.e;
+  else fb.innerHTML='<b>Chưa đúng. '+COMFORT[i%COMFORT.length]+'</b>Đáp án đúng là: <b style="display:inline">'+ans+'</b><br>'+m.e;
+  if(!silent){ ok?playRight():playWrong(); }
+  update();
+}
+function gradeQ8(silent){
+  if(res.c8!==undefined) return;
+  var c=$('c8'),e=0;
+  [['a',NOUNS,'người bạn (hoặc bạn nhỏ)'],['b',VERBS,'tiễn']].forEach(function(x){
+    var inp=$('i8'+x[0]),row=$('r8'+x[0]),ok=x[1].indexOf(norm(inp.value))>-1;
+    if(ok) e++;
+    inp.disabled=true; row.classList.add(ok?'right':'wrong');
+    row.querySelector('.fix').textContent=ok?'':'Đáp án: '+x[2];
+  });
+  res.c8=e; $('chk8').disabled=true;
+  c.classList.add(e===2?'ok':'no');
+  var ex='Trong câu này, danh từ chung là người bạn, bạn nhỏ (cũng có thể là ngày, quê); động từ là tiễn (cũng có thể là xa).';
+  c.querySelector('.fb').innerHTML=(e===2?'<b>✅ Đúng rồi! Con làm tốt lắm!</b>':(e===1?'<b>Đúng một ý rồi. Con xem lại ý còn lại nhé.</b>':'<b>Chưa đúng. Con xem đáp án rồi nhớ nhé.</b>'))+ex;
+  if(!silent){ e===2?playRight():playWrong(); }
+  update();
+}
+function gradeQ10(si,k,silent){
+  var s=SUBS[si],id='c10'+s.p; if(res[id]!==undefined) return;
+  var ok=(k===s.a); res[id]=ok?1:0;
+  var c=$('s10'+s.p);
+  c.querySelectorAll('.opt').forEach(function(b,j){
+    b.disabled=true;
+    if(j===s.a) b.classList.add('right'); else if(j===k) b.classList.add('wrong');
+  });
+  c.classList.add(ok?'ok':'no');
+  var fb=c.querySelector('.fb');
+  if(ok) fb.innerHTML='<b>✅ Đúng rồi! '+PRAISE[(si+2)%PRAISE.length]+'</b>'+s.e;
+  else if(k===-1) fb.innerHTML='<b>Chưa có câu trả lời</b>Đáp án đúng là: <b style="display:inline">'+KIND[s.a]+'</b>. '+s.e;
+  else fb.innerHTML='<b>Chưa đúng. '+COMFORT[(si+1)%COMFORT.length]+'</b>Đáp án đúng là: <b style="display:inline">'+KIND[s.a]+'</b>. '+s.e;
+  if(!silent){ ok?playRight():playWrong(); }
+  update();
+}
+
+var qz=$('qzone');
+qz.addEventListener('click',function(ev){
+  var b=ev.target.closest('.opt'); if(b&&!b.disabled&&!graded){
+    if(b.dataset.kind==='mc') gradeMC(+b.dataset.i,+b.dataset.k,false);
+    else if(b.dataset.kind==='q10') gradeQ10(+b.dataset.p,+b.dataset.k,false);
+    return;
+  }
+  if(ev.target.id==='chk8'&&!ev.target.disabled) gradeQ8(false);
+});
+qz.addEventListener('input',function(ev){
+  if(ev.target.id==='i8a'||ev.target.id==='i8b'){
+    if(res.c8!==undefined) return;
+    $('chk8').disabled=!($('i8a').value.trim()||$('i8b').value.trim());
+  }
+});
+
+/* ---------- họ tên, lớp ---------- */
+var nameInput=$('studentName'),classInput=$('studentClass'),rosterBox=$('rosterBox'),rosterSel=$('rosterSel'),otherName=$('otherName');
+function getName(){
+  if(!rosterBox.classList.contains('hidden')){
+    return rosterSel.value==='__other__'?otherName.value.trim():rosterSel.value.trim();
+  }
+  return nameInput.value.trim();
+}
+if(LOP_LINK){
+  classInput.value=LOP_LINK; classInput.readOnly=true;
+  var ctl=(typeof AbortController!=='undefined')?new AbortController():null;
+  var timer=setTimeout(function(){ if(ctl) ctl.abort(); },5000);
+  fetch(GAS_URL+'?action=roster&lop='+encodeURIComponent(LOP_LINK),ctl?{signal:ctl.signal}:{})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      clearTimeout(timer);
+      if(d&&d.ok&&d.names&&d.names.length){
+        rosterSel.innerHTML='<option value="">— Chọn tên của con —</option>';
+        d.names.forEach(function(nm){ var o=document.createElement('option'); o.value=nm; o.textContent=nm; rosterSel.appendChild(o); });
+        var ot=document.createElement('option'); ot.value='__other__'; ot.textContent='Tên con không có trong danh sách'; rosterSel.appendChild(ot);
+        $('nameBox').classList.add('hidden'); rosterBox.classList.remove('hidden');
+      }
+    })
+    .catch(function(){ clearTimeout(timer); });
+}
+rosterSel.addEventListener('change',function(){
+  otherName.classList.toggle('hidden',rosterSel.value!=='__other__');
+  rosterSel.style.borderColor='';
+  if(rosterSel.value==='__other__') otherName.focus();
+});
+
+/* ---------- nộp bài ---------- */
+function countBlank(){
+  var n=0; ITEMS.forEach(function(x){ if(res[x[0]]===undefined) n++; }); return n;
+}
+function lockText(on){
+  ['t5','t10','tw','studentName','studentClass','rosterSel','otherName'].forEach(function(id){var e=$(id); if(e) e.disabled=on;});
+}
+$('submitBtn').addEventListener('click',function(){
+  if(graded) return;
+  var name=getName(),lop=classInput.value.trim(),msg=$('msg');
+  var nameField=rosterBox.classList.contains('hidden')?nameInput:(rosterSel.value==='__other__'?otherName:rosterSel);
+  if(!name){
+    msg.textContent='Con hãy điền họ tên trước khi nộp bài nhé!';
+    nameField.style.borderColor='var(--bad)'; nameField.scrollIntoView({behavior:'smooth',block:'center'}); nameField.focus(); return;
+  }
+  nameField.style.borderColor='';
+  if(!lop){
+    msg.textContent='Con hãy điền lớp trước khi nộp bài nhé!';
+    classInput.style.borderColor='var(--bad)'; classInput.scrollIntoView({behavior:'smooth',block:'center'}); classInput.focus(); return;
+  }
+  classInput.style.borderColor='';
+  var blank=countBlank();
+  if(blank>0&&!warned){ warned=true; msg.textContent='Con còn '+blank+' câu chưa làm. Con kiểm tra lại nhé – nếu vẫn muốn nộp, hãy bấm “Nộp bài” lần nữa.'; return; }
+  msg.textContent=''; graded=true; this.disabled=true;
+
+  MC.forEach(function(m,i){ gradeMC(i,-1,true); });
+  gradeQ8(true);
+  SUBS.forEach(function(s,si){ gradeQ10(si,-1,true); });
+
+  var earned=0,total=0,wrong=[],rows='';
+  ITEMS.forEach(function(x){
+    var e=res[x[0]],m=maxOf(x[0]); earned+=e; total+=m; if(e<m) wrong.push(x[1]);
+    rows+='<tr><td>'+x[1]+'</td><td>'+(e===m?'✅ ':'')+e+' / '+m+'</td></tr>';
+  });
+  var parts=[];
+  if($('t5').value.trim()) parts.push('Câu 5: '+$('t5').value.trim());
+  if($('t10').value.trim()) parts.push('Câu 10 (giải thích): '+$('t10').value.trim());
+  if($('tw').value.trim()) parts.push('Bài viết: '+$('tw').value.trim());
+  var payload={bai:BAI,hoten:name,lop:lop,loplink:LOP_LINK,diem:earned,tongdiem:total,causai:wrong.join(', ')};
+  if(parts.length) payload.tuluan=parts.join('\n\n');
+
+  document.body.classList.add('graded'); lockText(true);
+  var sendEl=$('rsend'); sendEl.textContent='Đang gửi bài cho cô...';
+  try{
+    fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+      .then(function(){ sendEl.textContent='✅ Bài làm của con đã được gửi cho cô.'; })
+      .catch(function(){ sendEl.textContent='⚠️ Chưa gửi được bài. Con báo cô hoặc người lớn kiểm tra mạng nhé.'; });
+  }catch(e){ sendEl.textContent='⚠️ Chưa gửi được bài. Con báo cô hoặc người lớn kiểm tra mạng nhé.'; }
+
+  var pct=earned/total,em,m;
+  if(pct>=.9){em='🌞';m='Tuyệt vời! Con làm bài rất giỏi!';}
+  else if(pct>=.7){em='🌤️';m='Rất tốt! Con đã làm đúng nhiều câu rồi.';}
+  else if(pct>=.5){em='⛅';m='Khá lắm! Con xem lại vài câu để giỏi hơn nữa nhé.';}
+  else{em='🌱';m='Đừng lo, con xem lại các đáp án rồi thử lại nhé!';}
+  $('rEm').textContent=em;
+  $('rSc').textContent=earned+' / '+total+' ý đúng';
+  $('r10').textContent='Quy ra thang 10: '+(Math.round(pct*10*4)/4).toString().replace('.',',')+' điểm';
+  $('rMsg').textContent=name+' ơi, '+m;
+  $('rTab').innerHTML=rows;
+  var r=$('result'); r.classList.add('show'); r.scrollIntoView({behavior:'smooth',block:'center'});
+  if(pct>=.7){ burst(); playRight(); }
+});
+
+/* ---------- làm lại ---------- */
+$('retryBtn').addEventListener('click',function(){
+  res={}; graded=false; warned=false;
+  document.body.classList.remove('graded');
+  build(); lockText(false); $('tw').value='';
+  $('submitBtn').disabled=false; $('msg').textContent='';
+  $('result').classList.remove('show'); $('rsend').textContent='';
+  update(); window.scrollTo({top:0,behavior:'smooth'});
+});
+
+build(); update();
+})();
+</script>
+</body>
+</html>
